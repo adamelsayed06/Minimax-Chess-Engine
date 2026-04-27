@@ -1,6 +1,7 @@
 package main
 
 import (
+	"image/color"
 	"log"
 
 	"github.com/hajimehoshi/ebiten/v2"
@@ -21,7 +22,7 @@ func (g* Game) Update() error {
 }
 
 func (g* Game) Draw(screen *ebiten.Image) {
-	vector.FillRect(screen, g.x, g.y, 40, 20, nil, false)
+	vector.FillRect(screen, g.x, g.y, 40, 20, color.White, false)
 }
 
 func (g* Game) Layout(outsideWidth, outsideHeight int) (screenWidth, screenHeight int) {
