@@ -7,11 +7,11 @@ import (
 	"github.com/corentings/chess/v2"
 )
 
-func eval(position chess.Position) float64 {
+func eval(position *chess.Position) float64 {
 	return 0
 }
 
-func search(game *chess.Game, depth int) float64 {
+func search(game *chess.Game, depth int, findingBestWhiteMove bool) float64 {
 	position := game.Position() // e.g. starting pos = rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1
 
 	if (depth == 0 || game.IsAtEnd()) {
@@ -39,7 +39,7 @@ func getBestMove(game *chess.Game, depth int) chess.Move {
 		gameCopy := game.Clone()
 		gameCopy.Move(&move, nil)
 		
-		final_position_score_after_move := search(gameCopy, depth - 1) // we played 1 move so depth -= 1
+		final_position_score_after_move := search(gameCopy, depth - 1, true) // we played 1 move so depth -= 1, currently optimizing for white
 		// get final elo of playing said move
 
 		if (final_position_score_after_move > bestScore) {
