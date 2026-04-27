@@ -8,7 +8,13 @@ import (
 )
 
 func search(game *chess.Game, depth int) float64 {
-	return 0
+	position := game.Position() // e.g. starting pos = rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1
+
+	if (depth == 0 || game.IsAtEnd()) {
+		return eval(position)
+	}
+
+	
 }
 
 func getBestMove(game *chess.Game, depth int) chess.Move {
