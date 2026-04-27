@@ -1,43 +1,25 @@
 package main
 
 import (
-	"image/color"
-	"log"
+	"fmt"
 
-	"github.com/hajimehoshi/ebiten/v2"
-	"github.com/hajimehoshi/ebiten/v2/vector"
+	"github.com/corentings/chess/v2"
 )
 
-/*
-
- */
-
-type Game struct {
-	x float32
-	y float32
-}
-
-func (g* Game) Update() error {
-	return nil
-}
-
-func (g* Game) Draw(screen *ebiten.Image) {
-	vector.FillRect(screen, g.x, g.y, 40, 20, color.White, false)
-}
-
-func (g* Game) Layout(outsideWidth, outsideHeight int) (screenWidth, screenHeight int) {
-	// outsideWith, Height provided by engine (parameters)
-	// returns int, int
-	return 320, 240
-}
-
 func main() {
-	game := &Game{};
-	ebiten.SetWindowSize(640, 480)
-	ebiten.SetWindowTitle("My Chess Engine")
-
-	if err := ebiten.RunGame(game); err != nil{
-		log.Fatal(err)
-	} 
-
+	game := chess.NewGame()
+	fmt.Println(game.Position().Board().Draw())
+	// generate moves until game is over
+	for game.Outcome() == chess.NoOutcome {
+		// select a random move
+		moves := game.ValidMoves()
+		move := getBestMove(moves, game.Position)
+		if err := game.Move(&move, nil); err != nil {
+			panic(err) // Should not happen with valid moves
+		}
+	}
+	// print outcome and game PGN
+	fmt.Println(game.Position().Board().Draw())
+	fmt.Printf("Game completed. %s by %s.\n", game.Outcome(), game.Method())
+	fmt.Println(game.String())
 }
