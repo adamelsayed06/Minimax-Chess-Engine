@@ -7,7 +7,7 @@ import (
 	"github.com/corentings/chess/v2"
 )
 
-func search(move chess.Move, depth int) float64 {
+func search(game *chess.Game, depth int) float64 {
 	return 0
 }
 
@@ -18,8 +18,11 @@ func getBestMove(game *chess.Game, depth int) chess.Move {
 
 	for _, move := range validMoves {
 		// _ indicates unused since we dont care about idx and go forces enumeration
+
+		gameCopy := game.Clone()
+		gameCopy.Move(&move, nil)
 		
-		final_position_score_after_move := search(move, depth)
+		final_position_score_after_move := search(gameCopy, depth - 1) // we played 1 move so depth -= 1
 		// get final elo of playing said move
 
 		if (final_position_score_after_move > bestScore) {
