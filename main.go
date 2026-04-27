@@ -7,6 +7,10 @@ import (
 	"github.com/corentings/chess/v2"
 )
 
+func eval(position chess.Position) float64 {
+	return 0
+}
+
 func search(game *chess.Game, depth int) float64 {
 	position := game.Position() // e.g. starting pos = rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1
 
@@ -14,7 +18,14 @@ func search(game *chess.Game, depth int) float64 {
 		return eval(position)
 	}
 
-	
+	validMoves := game.ValidMoves()
+
+	for _, move := range validMoves {
+		gameCopy := game.Clone()
+		gameCopy.Move(&move, nil)
+
+	}
+
 }
 
 func getBestMove(game *chess.Game, depth int) chess.Move {
